@@ -305,7 +305,7 @@ final public class EVReflection {
             if bundle.bundleIdentifier == nil {
                 bundle = NSBundle(forClass: EVReflection().dynamicType)
             }
-            appName = (split((bundle.bundleIdentifier!).characters){$0 == "."}.map { String($0) }).last ?? ""
+            appName = (bundle.bundleIdentifier!).componentsSeparatedByString(".").last ?? ""
         }
         let cleanAppName = appName.stringByReplacingOccurrencesOfString(" ", withString: "_", options: NSStringCompareOptions.CaseInsensitiveSearch, range: nil)
         return cleanAppName
@@ -344,7 +344,7 @@ final public class EVReflection {
         let classWithoutAppName: String = classStringName.stringByReplacingOccurrencesOfString(appName + ".", withString: "", options: NSStringCompareOptions.CaseInsensitiveSearch, range: nil)
         if classWithoutAppName.rangeOfString(".") != nil {
             NSLog("Warning! Your Bundle name should be the name of your target (set it to $(PRODUCT_NAME))")
-            let parts = split(classWithoutAppName.characters){$0 == "."}
+            let parts = classWithoutAppName.componentsSeparatedByString(".")
             let strings: [String] = parts.map { String($0) }
             return strings.last!
         }
